@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+
 import uvicorn
+
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from api.inventory import inventory
