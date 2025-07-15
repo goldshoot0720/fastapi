@@ -1,11 +1,19 @@
 from fastapi import APIRouter
+from myappwritedb import list_documents
+from myappwritedb import list_documents_by_name
+import json
 
 subscription = APIRouter()
 
-@subscription.get("/",summary="subscription get summary",description="subscription get description")
+@subscription.get("/", summary="List subscription")
 async def subscription_get():
-  return {"subscription":"subscription"}
+  result = list_documents(collection_id="687250d70020221fb26c")
+  return result
 
-@subscription.get("/{name}",summary="subscription get by name summary",description="subscription get by name description")
-async def subscription_get_by_name(name):
-  return {"subscription":name}
+@subscription.get("/{name}")
+async def get_subscription_by_name(name: str):
+    try:
+        result = list_documents_by_name(name, collection_id="687250d70020221fb26c")
+        return result
+    except Exception as e:
+        return {"error": str(e)}

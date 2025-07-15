@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from api.experience import experience
 from api.member import member
 from api.bank import bank
 from api.mail import mail
