@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import uvicorn
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+from api.member import member
 from api.bank import bank
 from api.mail import mail
 from api.cloud import cloud
@@ -9,8 +11,15 @@ from api.host import host
 from api.subscription import subscription
 from api.video import video
 from api.food import food
-
 app = FastAPI()
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins="*",
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
+app.include_router(member,prefix="/member",tags=["member tags"])
 app.include_router(bank,prefix="/bank",tags=["bank tags"])
 app.include_router(mail,prefix="/mail",tags=["mail tags"])
 app.include_router(cloud,prefix="/cloud",tags=["cloud tags"])
@@ -22,7 +31,5 @@ app.include_router(food,prefix="/food",tags=["food tags"])
 @app.get("/")
 def app_get():
   return RedirectResponse(url="/docs")
-
 if __name__ == "__main__":
   uvicorn.run("main:app",port=8080,reload=True)
-
