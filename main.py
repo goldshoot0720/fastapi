@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-
 import uvicorn
-
+import threading
+import time
+import requests
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from api.inventory import inventory
@@ -16,6 +17,20 @@ from api.subscription import subscription
 from api.video import video
 from api.food import food
 app = FastAPI()
+# ---- 保活函數 ----
+def keep_alive():
+    while True:
+        try:
+            requests.get("https://fastapitsaopaofenghsiung2025.onrender.com/healthcheck")
+            print("保活 ping 成功")
+        except Exception as e:
+            print("保活失敗:", e)
+        time.sleep(900)  # 每 15 分鐘
+
+# ---- 啟動時自動啟動保活 ----
+@app.on_event("startup")
+def startup_event():
+    threading.Thread(target=keep_alive, daemon=True).start()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -37,5 +52,9 @@ app.include_router(food,prefix="/food",tags=["food tags"])
 @app.get("/")
 def app_get():
   return RedirectResponse(url="/docs")
+# ---- 健康檢查 ----
+@app.get("/healthcheck")
+async def healthcheck():
+    return {"status": "ok"}
 if __name__ == "__main__":
   uvicorn.run("main:app",port=8080,reload=True)
