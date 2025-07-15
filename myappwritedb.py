@@ -27,3 +27,12 @@ def list_documents_by_name(name: str, collection_id: str, database_id=DATABASE_I
         collection_id=collection_id,
         queries=[Query.equal("name", name)]
     )
+
+def list_documents_by_name_part(name: str, collection_id: str):
+    documents = databases.list_documents(
+        database_id=DATABASE_ID,
+        collection_id=collection_id,
+        queries=[
+            Query.contains("name", name)]
+    )
+    return documents

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from api.inventory import inventory
 from api.experience import experience
 from api.member import member
 from api.bank import bank
@@ -20,6 +21,8 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
+app.include_router(inventory,prefix="/inventory",tags=["inventory(庫存) tags"])
+app.include_router(experience,prefix="/experience",tags=["experience tags"])
 app.include_router(member,prefix="/member",tags=["member tags"])
 app.include_router(bank,prefix="/bank",tags=["bank tags"])
 app.include_router(mail,prefix="/mail",tags=["mail tags"])
