@@ -1,5 +1,6 @@
 from appwrite.client import Client
 from appwrite.services.databases import Databases
+from appwrite.query import Query
 
 # 初始化 Appwrite client
 client = Client()
@@ -26,17 +27,18 @@ def list_documents_by_name(name: str, collection_id: str):
         database_id=DATABASE_ID,
         collection_id=collection_id,
         queries=[
-            f'equal("name", ["{name}"])'
+            Query.equal("name", [name])  # ✅ 自動處理編碼與格式
         ]
     )
 
 # ✅ 模糊比對 name
-def list_documents_by_name_part(name: str, collection_id: str):
+
+def list_documents_by_search_name(name: str, collection_id: str):
     return database.list_documents(
         database_id=DATABASE_ID,
         collection_id=collection_id,
         queries=[
-            f'search("name", "{name}")'
+            Query.search("name", name)  # ✅ 自動 escape
         ]
     )
 

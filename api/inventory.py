@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from myappwritedb import list_documents
 from myappwritedb import list_documents_by_name
-from myappwritedb import list_documents_by_name_part
+from myappwritedb import list_documents_by_search_name
 import json
 from myappwritedb import update_document
 from fastapi import Body
@@ -22,9 +22,9 @@ async def get_inventory_by_name(name: str):
         return {"error": str(e)}
 
 @inventory.get("/search/{name}")
-async def get_inventory_by_name(name: str):
+async def get_inventory_by_search_name(name: str):
     try:
-        result = list_documents_by_name_part(name, collection_id="6876282f0003d93246fe")
+        result = list_documents_by_search_name(name, collection_id="6876282f0003d93246fe")
         return result
     except Exception as e:
         return {"error": str(e)}
