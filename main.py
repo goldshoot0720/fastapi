@@ -17,6 +17,7 @@ from api.subscription import subscription
 from api.video import video
 from api.food import food
 app = FastAPI()
+app.include_router(article,prefix="/article",tags=["article tags"])
 app.include_router(inventory,prefix="/inventory",tags=["inventory(庫存) tags"])
 app.include_router(experience,prefix="/experience",tags=["experience tags"])
 app.include_router(member,prefix="/member",tags=["member tags"])
