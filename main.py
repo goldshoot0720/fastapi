@@ -5,6 +5,7 @@ import time
 import requests
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
+from api.article import article
 from api.inventory import inventory
 from api.experience import experience
 from api.member import member
